@@ -1,0 +1,23 @@
+name: Build
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Publish
+        run: dotnet publish GamepadLauncher.csproj -c Release -o out
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: GamepadLauncher
+          path: out/GamepadLauncher.exe
